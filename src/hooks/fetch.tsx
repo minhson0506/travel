@@ -5,7 +5,7 @@ const doGraphQLFetch = async (url: string, query: string, variables?: object, to
     if (token) {
         header.Authorization = `Bearer ${token}`;
     }
-
+        
     const response = await fetch(url, {
         method: 'POST',
         headers: header,
