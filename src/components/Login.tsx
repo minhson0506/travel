@@ -3,15 +3,16 @@ import { useMainContext } from '../contexts/MainContext';
 import background from '../images/background.jpg';
 import {doGraphQLFetch} from '../hooks/fetch';
 import {login} from '../hooks/userQueries';
+import {getProfileByOwner} from '../hooks/profileQueries';
 
 interface Props {}
 
 const Login: React.FC<Props> = () => {
-    const { setPage } = useMainContext();
+    const { setPage, setToken, setProfile } = useMainContext();
     const [user, setUser] = useState('');
     const [password, setPassword] = useState('');
 
-    const apiUrl = process.env.apiUrl as string;
+    const apiUrl = process.env.REACT_APP_API_URL as string;
 
     const loginButton = () => {
         setPage(2);
@@ -24,22 +25,22 @@ const Login: React.FC<Props> = () => {
     const updateUser = (e: ChangeEvent<HTMLInputElement>) => {
         const val = e.target.value;
         setUser(val);
-        console.log("user input", val);
     }
 
     const updatePassword = (e: ChangeEvent<HTMLInputElement>) => {
         const val = e.target.value;
         setPassword(val);
-        console.log("password input", val);
     }
 
     const onClick = async () => {
-        const userInput = {
-            user_name: user,
+        const credentials = {
+            username: user,
             password: password,
         };
-        const userData = await doGraphQLFetch(apiUrl, login, { userInput });
-        console.log('userData', userData);
+        const userData = await doGraphQLFetch(apiUrl, login, { credentials });
+        const profileData = await doGraphQLFetch(apiUrl, getProfileByOwner, {owner: userData.login.user.id}, userData.login.token);
+        setToken(userData.login.token);
+        setProfile(profileData.profileByOwner[0]);
     }
 
     return (

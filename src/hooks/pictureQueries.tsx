@@ -32,17 +32,18 @@ const getPictureByOwner = `
 `;
 
 const postPicture = `
-    mutation Mutation($title: String!, $description: String!, $filename: String!) {
-        createPicture(title: $title, description: $description, filename: $filename) {
+    mutation Mutation($title: String!, $description: String!, $filename: String!, $timestamp: DateTime!) {
+        createPicture(title: $title, description: $description, filename: $filename, timestamp: $timestamp) {
+        id
+        title
+        description
+        filename
+        owner {
             id
-            title
-            description
-            filename
-            owner {
-                id
-                user_name
-                email
-            }
+            user_name
+            email
+        }
+        timestamp
         }
     }
 `;

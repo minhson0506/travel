@@ -5,8 +5,7 @@ interface Picture {
     description: string;
     filename: string;
     owner: string | User;
+    timestamp: Date;
 }
-
-
 
 export type {Picture}

@@ -1,13 +1,15 @@
 import {ChangeEvent, useState} from "react";
 import {useMainContext} from "../contexts/MainContext";
 import {doGraphQLFetch} from "../hooks/fetch";
-import {postUser} from "../hooks/userQueries";
+import {login, postUser} from "../hooks/userQueries";
 import {User} from "../interfaces/User";
+import background from '../images/background.jpg';
+import {postProfile} from "../hooks/profileQueries";
 
 interface Props {}
 
 const Register: React.FC<Props> = () => {
-    const { setPage } = useMainContext();
+    const { setPage, setToken, setProfile } = useMainContext();
 
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -43,37 +45,24 @@ const Register: React.FC<Props> = () => {
     }
 
     const onClick = async () => {
-        console.log('clicked');
-        // const user: User = {
-        //     user_name: name,
-        //     email: email,
-        //     password: password,
-        // };
-        // const userData = await doGraphQLFetch(apiUrl, postUser, { user });
-        // console.log('userData', userData);
-
         const user: User = {
-            user_name: 'test',
-            email: 'test2@metropolia.fi',
-            password: 'test',
+            user_name: name,
+            email: email,
+            password: password,
         };
-        const userData = await doGraphQLFetch(apiUrl, postUser, { user });
-        console.log('userData', userData);
+        const newUser = await doGraphQLFetch(apiUrl, postUser, { user });
+        const credentials = {
+            username: newUser.register.user.email,
+            password: password,
+        };
+        const userData = await doGraphQLFetch(apiUrl, login, { credentials });
+        const profileData = await doGraphQLFetch(apiUrl, postProfile, {}, userData.login.token); 
+        setToken(userData.login.token);
+        setProfile(profileData.createProfile);
     }
 
-    // const login = async () => {
-//     console.log('clicked');
-        // const user: User = {
-        //     user_name: 'test',
-        //     email: 'test@metropolia.fi',
-        //     password: 'test',
-        // };
-        // const userData = await doGraphQLFetch(apiUrl, postUser, { user });
-        // console.log('userData', userData);
-// };
-
     return (
-        <div>
+        <div style={{backgroundImage: `url(${background})`}}>
             <div>
                 <button onClick={loginButton}>Sign in</button>
                 <button onClick={registerButton}>Sign up</button>
@@ -87,12 +76,12 @@ const Register: React.FC<Props> = () => {
                     <h1>Sign up</h1>
                     <h2>Our community is a source of inspiration for all types of travelers</h2>
                     <h2>Full name</h2>
-                    <input type="text" placeholder="Email" onChange={evt => updateName(evt)}></input>
+                    <input type="text" placeholder="UserName" onChange={evt => updateName(evt)}></input>
                     <h2>Email</h2>
                     <input type="text" placeholder="Email" onChange={evt => updateUser(evt)}></input>
                     <h2>Password</h2>
                     <input type="password" placeholder="Password" onChange={evt => updatePassword(evt)}></input>
-                    <button onClick={onClick}>Sign in</button>
+                    <button onClick={onClick}>Sign up</button>
                 </div>
             </div>
         </div>
