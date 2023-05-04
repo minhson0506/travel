@@ -1,26 +1,45 @@
-import {useMainContext} from "../contexts/MainContext";
+import { useMainContext } from '../contexts/MainContext';
 
 interface Props {}
 
 const Welcome: React.FC<Props> = () => {
     const { setPage } = useMainContext();
 
-    const loginButton = async () => {
-        setPage(2);
-    }
-    
-    const registerButton = async () => {
-        setPage(1);
-    }
-
     return (
-        <div>
-            <div>
-                <button onClick={loginButton}>Sign in</button>
-                <button onClick={registerButton}>Sign up</button>
+        <div style={{ height: '100vh', width: '100%', background: 'white', display: 'flex', flexDirection: 'column' }}>
+            <div
+                style={{
+                    height: '20%',
+                    display: 'flex',
+                    flexDirection: 'row-reverse',
+                    alignItems: 'flex-start',
+                    padding: '20px',
+                }}>
+                <button
+                    style={{ margin: '20px', fontSize: '20px', color: 'white', backgroundColor: 'green' }}
+                    onClick={() => {
+                        setPage(2);
+                    }}>
+                    Sign in
+                </button>
+                <button
+                    style={{ margin: '20px', fontSize: '20px', color: 'white', backgroundColor: 'green' }}
+                    onClick={() => {
+                        setPage(1);
+                    }}>
+                    Sign up
+                </button>
             </div>
-            <div>
-                <div>
+            <div
+                style={{
+                    height: '75%',
+                    width: '100%',
+                    display: 'flex',
+                    flexDirection: 'row',
+                    alignItems: 'flex-start',
+                    padding: '20px',
+                }}>
+                <div style={{ width: '50%' }}>
                     <h1>Travel the world</h1>
                     <h1>Share your story</h1>
                     <h1>Inspire the next adventurer</h1>
@@ -29,8 +48,8 @@ const Welcome: React.FC<Props> = () => {
                         fellow explorers.
                     </h2>
                 </div>
-                <div>
-                    <img src={require('../images/landing.jpeg')} alt="landing"></img>
+                <div style={{ width: '50%' }}>
+                    <img src={require('../images/landing.jpeg')} alt="landing" style={{ width: '100%' }}></img>
                 </div>
             </div>
         </div>

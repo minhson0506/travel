@@ -1,10 +1,10 @@
-import {ChangeEvent, useState} from "react";
-import {useMainContext} from "../contexts/MainContext";
-import {doGraphQLFetch} from "../hooks/fetch";
-import {login, postUser} from "../hooks/userQueries";
-import {User} from "../interfaces/User";
+import { ChangeEvent, useState } from 'react';
+import { useMainContext } from '../contexts/MainContext';
+import { doGraphQLFetch } from '../hooks/fetch';
+import { login, postUser } from '../hooks/userQueries';
+import { User } from '../interfaces/User';
 import background from '../images/background.jpg';
-import {postProfile} from "../hooks/profileQueries";
+import { postProfile } from '../hooks/profileQueries';
 
 interface Props {}
 
@@ -19,30 +19,19 @@ const Register: React.FC<Props> = () => {
 
     console.log('apiUrl', apiUrl);
 
-    const loginButton = async () => {
-        setPage(2);
-    }
-    
-    const registerButton = async () => {
-        setPage(1);
-    }
-
     const updateName = (e: ChangeEvent<HTMLInputElement>) => {
         const val = e.target.value;
         setName(val);
-        console.log("name input", val);
-    }
+    };
     const updateUser = (e: ChangeEvent<HTMLInputElement>) => {
         const val = e.target.value;
         setEmail(val);
-        console.log("user input", val);
-    }
+    };
 
     const updatePassword = (e: ChangeEvent<HTMLInputElement>) => {
         const val = e.target.value;
         setPassword(val);
-        console.log("password input", val);
-    }
+    };
 
     const onClick = async () => {
         const user: User = {
@@ -50,47 +39,91 @@ const Register: React.FC<Props> = () => {
             email: email,
             password: password,
         };
-        const newUser = await doGraphQLFetch(apiUrl, postUser, { user });
-        const credentials = {
-            username: newUser.register.user.email,
-            password: password,
-        };
-        const userData = await doGraphQLFetch(apiUrl, login, { credentials });
-        const profileData = await doGraphQLFetch(apiUrl, postProfile, {}, userData.login.token); 
-        setToken(userData.login.token);
-        setProfile(profileData.createProfile);
-    }
+        try {
+            const newUser = await doGraphQLFetch(apiUrl, postUser, { user });
+            const credentials = {
+                username: newUser.register.user.email,
+                password: password,
+            };
+            const userData = await doGraphQLFetch(apiUrl, login, { credentials });
+            const profileData = await doGraphQLFetch(apiUrl, postProfile, {}, userData.login.token);
+            setToken(userData.login.token);
+            setProfile(profileData.createProfile);
+        } catch (error) {
+            alert("Couldn't register. Please try again.");
+        }
+    };
 
     return (
-        <div style={{backgroundImage: `url(${background})`}}>
-            <div>
-                <button onClick={loginButton}>Sign in</button>
-                <button onClick={registerButton}>Sign up</button>
+        <div
+            style={{
+                backgroundImage: `url(${background})`,
+                width: '100%',
+                height: '100vh',
+                display: 'flex',
+                flexDirection: 'column',
+                backgroundSize: 'cover',
+            }}>
+            <div
+                style={{
+                    height: '20%',
+                    display: 'flex',
+                    flexDirection: 'row-reverse',
+                    alignItems: 'flex-start',
+                    padding: '20px',
+                }}>
+                <button
+                    onClick={() => {
+                        setPage(2);
+                    }}>
+                    Sign in
+                </button>
+                <button
+                    onClick={() => {
+                        setPage(1);
+                    }}>
+                    Sign up
+                </button>
             </div>
-            <div>
-                <div>
+            <div
+                style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    justifyContent: 'space-evenly',
+                    justifyItems: 'center',
+                }}>
+                <div style={{ padding: '70px' }}>
                     <h1>Unlock a new world</h1>
                     <h2>Join our travel community today and explore the world with fellow adventurers!</h2>
                 </div>
-                <div>
+                <div
+                    style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        background: 'white',
+                        borderRadius: '20px',
+                        width: '60%',
+                        alignItems: 'center',
+                        margin: '30px',
+                        padding: '10px',
+                    }}>
                     <h1>Sign up</h1>
-                    <h2>Our community is a source of inspiration for all types of travelers</h2>
+                    <h3>Our community is a source of inspiration for all types of travelers</h3>
                     <h2>Full name</h2>
-                    <input type="text" placeholder="UserName" onChange={evt => updateName(evt)}></input>
+                    <input type="text" placeholder="UserName" onChange={(evt) => updateName(evt)}></input>
                     <h2>Email</h2>
-                    <input type="text" placeholder="Email" onChange={evt => updateUser(evt)}></input>
+                    <input type="text" placeholder="Email" onChange={(evt) => updateUser(evt)}></input>
                     <h2>Password</h2>
-                    <input type="password" placeholder="Password" onChange={evt => updatePassword(evt)}></input>
-                    <button onClick={onClick}>Sign up</button>
+                    <input type="password" placeholder="Password" onChange={(evt) => updatePassword(evt)}></input>
+                    <button
+                        style={{ margin: '30px', fontSize: '20px', color: 'white', backgroundColor: 'blue' }}
+                        onClick={onClick}>
+                        Sign up
+                    </button>
                 </div>
             </div>
         </div>
     );
 };
-
-
-
-
-
 
 export default Register;

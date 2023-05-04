@@ -5,16 +5,18 @@ import { useMainContext } from '../contexts/MainContext';
 import Follow from '../components/Follow';
 import Photo from '../components/Photo';
 import Edit from '../components/Edit';
+import Search from '../components/Search';
 
 interface Props {}
 
 const Home: React.FC<Props> = () => {
     const uploadImage = process.env.REACT_APP_UPLOAD_IMAGE as string;
 
-    const { token, profile } = useMainContext();
+    const { token, profile, setToken } = useMainContext();
 
     const [state, setState] = useState(0);
 
+    console.log('token', token);
     console.log('profile', profile);
 
     return (
@@ -31,7 +33,6 @@ const Home: React.FC<Props> = () => {
                 style={{
                     width: '75%',
                     height: '100%',
-                    //border: '1px solid',
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'flex-start',
@@ -42,7 +43,12 @@ const Home: React.FC<Props> = () => {
                     <img
                         src={`${uploadImage}/${profile.cover}`}
                         alt="cover"
-                        style={{ height: '30vh', borderRadius: '20px', border: '5px solid white' }}></img>
+                        style={{
+                            height: '30vh',
+                            width: '100%',
+                            borderRadius: '20px',
+                            border: '5px solid white',
+                        }}></img>
                 ) : (
                     <img
                         src={require('../images/landing.jpeg')}
@@ -50,7 +56,6 @@ const Home: React.FC<Props> = () => {
                         style={{
                             height: '30vh',
                             width: '100%',
-
                             borderRadius: '20px',
                             border: '5px solid white',
                         }}></img>
@@ -65,8 +70,14 @@ const Home: React.FC<Props> = () => {
                         justifyContent: 'space-between',
                         alignItems: 'center',
                     }}>
-                    <div style={{ height: '100px', width: '100%', display: 'flex', flexDirection: 'row', alignItems: 'flex-end' }}>
-                        {' '}
+                    <div
+                        style={{
+                            height: '100px',
+                            width: '100%',
+                            display: 'flex',
+                            flexDirection: 'row',
+                            alignItems: 'flex-end',
+                        }}>
                         {profile && profile.avatar ? (
                             <img
                                 src={`${uploadImage}/${profile.avatar}`}
@@ -78,80 +89,122 @@ const Home: React.FC<Props> = () => {
                                 alt="avatar"
                                 style={{ height: '100%', borderRadius: '50px', border: '2px solid black' }}></img>
                         )}
-                        <h1>{profile?.owner.user_name}</h1>
+                        <h1 style={{ padding: '10px' }}>{profile?.owner.user_name}</h1>
                     </div>
 
                     <button
-                        style={{ height: '50px', width: '100px' }}
+                        style={{
+                            height: '30px',
+                            width: '100px',
+                            border: '2px solid black',
+                            backgroundColor: '#ebf5ff',
+                            color: 'green',
+                            margin: '10px',
+                        }}
                         onClick={() => {
-                            setState(5);
+                            setState(6);
                         }}>
                         Edit Profile
                     </button>
-                </div>
-                <div style={{ width: '100%', display: 'flex', flexDirection: 'row' , justifyContent: 'space-evenly', alignItems: 'center'}}>
                     <button
+                        style={{
+                            height: '30px',
+                            width: '100px',
+                            border: '2px solid black',
+                            backgroundColor: '#ebf5ff',
+                            color: 'green',
+                            margin: '10px',
+                        }}
+                        onClick={() => {
+                            setToken(null);
+                        }}>
+                        Log Out
+                    </button>   
+                </div>
+                <div
+                    style={{
+                        width: '100%',
+                        display: 'flex',
+                        flexDirection: 'row',
+                        justifyContent: 'space-evenly',
+                        alignItems: 'center',
+                        paddingTop: '10px',
+                    }}>
+                    <button
+                        style={{ fontSize: '20px' }}
                         onClick={() => {
                             setState(0);
                         }}>
                         My Feed
                     </button>
                     <button
+                        style={{ fontSize: '20px' }}
                         onClick={() => {
                             setState(1);
                         }}>
                         About me
                     </button>
                     <button
+                        style={{ fontSize: '20px' }}
                         onClick={() => {
                             setState(2);
                         }}>
                         My Photos
                     </button>
                     <button
+                        style={{ fontSize: '20px' }}
                         onClick={() => {
                             setState(3);
                         }}>
                         Followers
                     </button>
                     <button
+                        style={{ fontSize: '20px' }}
                         onClick={() => {
                             setState(4);
                         }}>
                         Following
                     </button>
+                    <button
+                        style={{ fontSize: '20px' }}
+                        onClick={() => {
+                            setState(5);
+                        }}>
+                        Search
+                    </button>
                 </div>
-                
-                    {state === 0 ? (
-                        <Feed></Feed>
-                    ) : state === 1 ? (
-                        <About></About>
-                    ) : state === 2 ? (
-                        <Photo></Photo>
-                    ) : state === 3 ? (
-                        <Follow></Follow>
-                    ) : state === 3 ? (
-                        <Follow></Follow>
-                    ) : (
-                        <Edit></Edit>
-                    )}
-              
+
+                {state === 0 ? (
+                    <Feed></Feed>
+                ) : state === 1 ? (
+                    <About></About>
+                ) : state === 2 ? (
+                    <Photo></Photo>
+                ) : state === 3 ? (
+                    <Follow></Follow>
+                ) : state === 3 ? (
+                    <Follow></Follow>
+                ) : state === 4 ? (
+                    <Search></Search>
+                ) : (
+                    <Edit></Edit>
+                )}
             </div>
 
             <div
                 style={{
-                    width: '15%',
+                    width: '20%',
                     border: '5px solid white',
                     borderRadius: '20px',
                     margin: '10px',
                 }}>
-                <h3>You might be interested</h3>
+                <h3 style={{ textAlign: 'center' }}>You might be interested</h3>
                 <img src={require('../images/london.jpeg')} alt="london" style={{ width: '100%' }}></img>
-                <p>London</p>
+                <p style={{ textAlign: 'center' }}>London</p>
                 <img src={require('../images/greece.jpeg')} alt="greece" style={{ width: '100%' }}></img>
-                <p>Greece</p>
+                <p style={{ textAlign: 'center' }}>Greece</p>
                 <img src={require('../images/norway.jpg')} alt="norway" style={{ width: '100%' }}></img>
-                <p>Norway</p>
+                <p style={{ textAlign: 'center' }}>Norway</p>
             </div>
         </div>
     );

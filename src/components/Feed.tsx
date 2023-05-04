@@ -13,7 +13,7 @@ const Feed: React.FC<Props> = () => {
     const uploadURL = process.env.REACT_APP_UPLOAD_URL as string;
     const uploadImage = process.env.REACT_APP_UPLOAD_IMAGE as string;
 
-    const { token } = useMainContext();
+    const { token, profile } = useMainContext();
 
     const [title, setTitle] = useState<string>('');
     const [description, setDescription] = useState<string>('');
@@ -73,7 +73,15 @@ const Feed: React.FC<Props> = () => {
         );
     };
 
+    const getAllComment = async () => {};
+
+    const changeTime = (time: string) => {
+        let date = new Date(time);
+        return date.toLocaleString();
+    };
+
     useEffect(() => {
+        getAllComment();
         getFeed();
     }, []);
 
@@ -82,30 +90,114 @@ const Feed: React.FC<Props> = () => {
     });
 
     return (
-        <div style={{width: '100%'}}>
-            <div style={{background: 'white', borderRadius: '20px'}}>
-                <h2>Create Post</h2>
-                <h3>Title</h3>
-                <input type="text" placeholder="Start a post" onChange={(evt) => updateTitle(evt)} />
-                <h3>Description</h3>
-                <input type="text" placeholder="Description" onChange={(evt) => updateDescription(evt)} />
-                <h3>Picture</h3>
-                <input type="file" placeholder="file picture" onChange={(evt) => updateFile(evt)} />
-                <button onClick={onClick}>Post</button>
+        <div style={{ width: '100%', paddingTop: '10px' }}>
+            <div
+                style={{
+                    background: 'white',
+                    borderRadius: '20px',
+                    paddingLeft: '10px',
+                    paddingTop: '1px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                }}>
+                <div>
+                    <h2>Create Post</h2>
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'row' }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                        <h3 style={{ margin: '10px' }}>Title</h3>
+                        <h3 style={{ margin: '10px' }}>Picture</h3>
+                        <h3 style={{ margin: '10px' }}>Description</h3>
+                    </div>
+                    <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                        <input
+                            type="text"
+                            placeholder="Start a post"
+                            onChange={(evt) => updateTitle(evt)}
+                            style={{ marginLeft: '10px', height: 'auto', margin: '10px' }}
+                        />
+
+                        <input
+                            type="text"
+                            placeholder="Description"
+                            onChange={(evt) => updateDescription(evt)}
+                            style={{ marginLeft: '10px', height: 'auto', margin: '10px' }}
+                        />
+
+                        <input
+                            type="file"
+                            placeholder="file picture"
+                            onChange={(evt) => updateFile(evt)}
+                            style={{ marginLeft: '10px', height: 'auto', margin: '10px' }}
+                        />
+                    </div>
+                </div>
+
+                <button onClick={onClick} style={{ fontSize: '20px', width: '100px' }}>
+                    Post
+                </button>
             </div>
-            
-                {pictures.map((picture: any) => {
-                    return (
-                        <div style={{width: '100%'}}>
-                            <h3>{picture.title}</h3>
-                            <img src={`${uploadImage}/${picture.filename}`} alt="picture" style={{width: '100%'}}/>
-                            <p>{picture.description}</p>
-                            <p>{picture.owner.email}</p>
-                            <p>{picture.timestamp}</p>
+
+            {pictures.map((picture: any) => {
+                return (
+                    <div
+                        style={{
+                            width: '100%',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'flex-start',
+                            border: '5px solid white',
+                            background: 'white',
+                            borderRadius: '20px',
+                            marginTop: '10px',
+                
+                        }}>
+                        <div style={{ width: '100%', display: 'flex', flexDirection: 'row' }}>
+                            <div style={{ height: '10vh' }}>
+                                {profile && profile.avatar ? (
+                                    <img
+                                        src={`${uploadImage}/${profile.avatar}`}
+                                        alt="avatar"
+                                        style={{
+                                            height: '100%',
+                                            borderRadius: '60px',
+                                            border: '2px solid black',
+                                        }}></img>
+                                ) : (
+                                    <img
+                                        src={require('../images/avatar.png')}
+                                        alt="avatar"
+                                        style={{
+                                            height: '100%',
+                                            borderRadius: '50px',
+                                            border: '2px solid black',
+                                        }}></img>
+                                )}
+                            </div>
+                            <div
+                                style={{
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    alignItems: 'flex-start',
+                                    marginLeft: '10px',
+                                }}>
+                                <h3>{picture.owner.user_name}</h3>
+                                <p>{changeTime(picture.timestamp)}</p>
+                            </div>
                         </div>
-                    );
-                })}
-           
+
+                        <h3>{picture.title}</h3>
+                        <div style={{ height: '40%' }}>
+                            <img
+                                src={`${uploadImage}/${picture.filename}`}
+                                alt={`${picture.id}`}
+                                style={{ width: '100%' }}
+                            />
+                        </div>
+                        <p>{picture.description}</p>
+                    </div>
+                );
+            })}
         </div>
     );
 };
