@@ -1,11 +1,11 @@
 import {User} from "./User";
 
 interface Profile {
-    owner: string | User;
-    avatar: string;
-    cover: string;
+    owner: User;
+    avatar: string | null;
+    cover: string | null;
     about: string;
-    location: string;
+    location: string | null;
     interests: string[];
     follows: (string | User)[];
 }

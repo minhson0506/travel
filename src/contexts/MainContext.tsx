@@ -1,5 +1,6 @@
 import {createContext, useContext} from "react";
 import {Profile} from "../interfaces/Profile";
+import {User} from "../interfaces/User";
 
 export type ContextType = {
     token: string | null;
@@ -8,7 +9,7 @@ export type ContextType = {
     setPage: React.Dispatch<React.SetStateAction<number>>;
     profile: Profile | null;
     setProfile: React.Dispatch<React.SetStateAction<Profile | null>>;
-}
+};
 
 export const MainContext = createContext<ContextType>({
     token: null,
@@ -16,7 +17,8 @@ export const MainContext = createContext<ContextType>({
     page: 0,
     setPage: () => {},
     profile: null,
-    setProfile: () => {}
+    setProfile: () => {},
+   
 });
 
 export const useMainContext = () => useContext(MainContext);

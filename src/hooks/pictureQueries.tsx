@@ -5,6 +5,12 @@ const getPictures = `
             title
             description
             filename
+            owner {
+                id
+                user_name
+                email
+            }
+            timestamp
         }
     }
 `;
@@ -16,6 +22,12 @@ const getPictureById = `
             title
             description
             filename
+            owner {
+                id
+                user_name
+                email
+            }
+            timestamp
         }
     }
 `;
@@ -27,6 +39,12 @@ const getPictureByOwner = `
             title
             description
             filename
+            owner {
+                id
+                user_name
+                email
+            }
+            timestamp
         }
     }
 `;
@@ -34,16 +52,16 @@ const getPictureByOwner = `
 const postPicture = `
     mutation Mutation($title: String!, $description: String!, $filename: String!, $timestamp: DateTime!) {
         createPicture(title: $title, description: $description, filename: $filename, timestamp: $timestamp) {
-        id
-        title
-        description
-        filename
-        owner {
             id
-            user_name
-            email
-        }
-        timestamp
+            title
+            description
+            filename
+            owner {
+                id
+                user_name
+                email
+            }
+            timestamp
         }
     }
 `;
@@ -71,6 +89,12 @@ const deletePicture = `
             title
             description
             filename
+            owner {
+                id
+                user_name
+                email
+            }
+            timestamp
         }
     }
 `;

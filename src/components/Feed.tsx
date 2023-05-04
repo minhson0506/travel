@@ -3,6 +3,8 @@ import { getPictures, postPicture } from '../hooks/pictureQueries';
 import { useMainContext } from '../contexts/MainContext';
 import { doGraphQLFetch } from '../hooks/fetch';
 import UploadMessageResponse from '../interfaces/UploadMessageResponse';
+import { Picture } from '../interfaces/Picture';
+import { socket } from '../socket';
 
 interface Props {}
 
@@ -46,36 +48,42 @@ const Feed: React.FC<Props> = () => {
 
         const imageUploadData = (await imageUpload.json()) as UploadMessageResponse;
 
-        if (token === null) {
-            return;
-        }
-        console.log('title', title);
-        console.log('description', description);
-        console.log('filename', imageUploadData.data.filename);
-        const post = await doGraphQLFetch(
+        if (token === null) return;
+
+        await doGraphQLFetch(
             apiUrl,
             postPicture,
             { title: title, description: description, filename: imageUploadData.data.filename, timestamp: new Date() },
             token,
         );
-        console.log(' post picture ', post.createPicture);
+        // send socket event
+        socket.emit('update', 'createPicture');
     };
 
     const getFeed = async () => {
+        console.log('getFeed');
         if (token === null) {
             return;
         }
-        const feed = await doGraphQLFetch(apiUrl, getPictures);
-                                                                                                                                     setPictures(feed.pictures);
+        let feed = (await doGraphQLFetch(apiUrl, getPictures)).pictures;
+        setPictures(
+            feed.sort((a: Picture, b: Picture) => {
+                return a.timestamp > b.timestamp ? -1 : 1;
+            }),
+        );
     };
 
     useEffect(() => {
         getFeed();
     }, []);
 
+    socket.on('updateFeed', (data) => {
+        getFeed();
+    });
+
     return (
-        <div>
-            <div>
+        <div style={{width: '100%'}}>
+            <div style={{background: 'white', borderRadius: '20px'}}>
                 <h2>Create Post</h2>
                 <h3>Title</h3>
                 <input type="text" placeholder="Start a post" onChange={(evt) => updateTitle(evt)} />
@@ -85,18 +93,19 @@ const Feed: React.FC<Props> = () => {
                 <input type="file" placeholder="file picture" onChange={(evt) => updateFile(evt)} />
                 <button onClick={onClick}>Post</button>
             </div>
-            <div>
+            
                 {pictures.map((picture: any) => {
                     return (
-                        <div>
+                        <div style={{width: '100%'}}>
                             <h3>{picture.title}</h3>
-                            <img src={`${uploadImage}/${picture.filename}`} alt="picture" />
+                            <img src={`${uploadImage}/${picture.filename}`} alt="picture" style={{width: '100%'}}/>
                             <p>{picture.description}</p>
+                            <p>{picture.owner.email}</p>
+                            <p>{picture.timestamp}</p>
                         </div>
                     );
-                })
-                }
-            </div>
+                })}
+           
         </div>
     );
 };
