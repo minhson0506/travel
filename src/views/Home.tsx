@@ -14,9 +14,6 @@ const Home: React.FC<Props> = () => {
 
     const { token, profile, setToken, state, setState } = useMainContext();
 
-    console.log('token', token);
-    console.log('profile', profile);
-
     return (
         <div
             style={{

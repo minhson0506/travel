@@ -18,7 +18,8 @@ const getComments = `
                     user_name
                     email
                 }
-            }    
+            } 
+            timestamp
         }
     }
 `;
@@ -43,7 +44,8 @@ const getCommentById = `
                     user_name
                     email
                 }
-            }    
+            }
+            timestamp
         }
     }
 `;
@@ -110,7 +112,8 @@ const postComment = `
                     user_name
                     email
                 }
-            }    
+            }
+            timestamp    
         }
     }
 `;

@@ -33,7 +33,6 @@ const Login: React.FC<Props> = () => {
         } catch (err) {
             alert("Couldn't log in. Please try again.");
         }
-        
     };
 
     return (

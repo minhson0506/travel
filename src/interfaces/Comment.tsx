@@ -1,11 +1,12 @@
 import {User} from "./User";
 import {Picture} from "./Picture";
 
-interface Comment {
+interface CommentUser {
+    id?: string;
     text: string;
-    owner: string | User;
-    picture: string | Picture;
+    owner: User;
+    picture: Picture;
     timestamp: Date;
 }
 
-export default Comment
+export type {CommentUser}
