@@ -16,6 +16,7 @@ function App() {
     const [profile, setProfile] = React.useState<Profile | null>({
         id: "6453f99b3b1c1326bfb3b872",
         owner: {
+            id: '6453f99af2904761cfd49c40',
             email: 'sond@metropolia.fi',
             user_name: 'Son Dang',
         },

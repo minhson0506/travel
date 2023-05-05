@@ -18,6 +18,7 @@ const Search: React.FC<Props> = () => {
     const [profiles, setProfiles] = useState<Profile[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
 
+    // load data for searching by name or email
     const onclick = async () => {
         console.log('text', text);
         if (text === '') return;
@@ -29,7 +30,6 @@ const Search: React.FC<Props> = () => {
             }),
         );
         if (allProfiles === undefined) return;
-        console.log('allProfiles', allProfiles);
         setProfiles(allProfiles);
     };
 

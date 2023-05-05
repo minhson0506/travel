@@ -17,22 +17,7 @@ const Register: React.FC<Props> = () => {
 
     const apiUrl = process.env.REACT_APP_API_URL as string;
 
-    console.log('apiUrl', apiUrl);
-
-    const updateName = (e: ChangeEvent<HTMLInputElement>) => {
-        const val = e.target.value;
-        setName(val);
-    };
-    const updateUser = (e: ChangeEvent<HTMLInputElement>) => {
-        const val = e.target.value;
-        setEmail(val);
-    };
-
-    const updatePassword = (e: ChangeEvent<HTMLInputElement>) => {
-        const val = e.target.value;
-        setPassword(val);
-    };
-
+    // submit register credentials
     const onClick = async () => {
         const user: User = {
             user_name: name,
@@ -110,11 +95,14 @@ const Register: React.FC<Props> = () => {
                     <h1>Sign up</h1>
                     <h3>Our community is a source of inspiration for all types of travelers</h3>
                     <h2>Full name</h2>
-                    <input type="text" placeholder="UserName" onChange={(evt) => updateName(evt)}></input>
+                    <input type="text" placeholder="UserName" onChange={(evt) => setName(evt.target.value)}></input>
                     <h2>Email</h2>
-                    <input type="text" placeholder="Email" onChange={(evt) => updateUser(evt)}></input>
+                    <input type="text" placeholder="Email" onChange={(evt) => setEmail(evt.target.value)}></input>
                     <h2>Password</h2>
-                    <input type="password" placeholder="Password" onChange={(evt) => updatePassword(evt)}></input>
+                    <input
+                        type="password"
+                        placeholder="Password"
+                        onChange={(evt) => setPassword(evt.target.value)}></input>
                     <button
                         style={{ margin: '30px', fontSize: '20px', color: 'white', backgroundColor: 'blue' }}
                         onClick={onClick}>

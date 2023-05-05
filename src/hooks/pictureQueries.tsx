@@ -33,18 +33,18 @@ const getPictureById = `
 `;
 
 const getPictureByOwner = `
-    query Query($pictureByOwnerOwner: ID!) {
-        pictureByOwner(owner: $pictureByOwnerOwner) {
+    query Query($owner: ID!) {
+        picturesByOwner(owner: $owner) {
+        id
+        title
+        description
+        filename
+        owner {
             id
-            title
-            description
-            filename
-            owner {
-                id
-                user_name
-                email
-            }
-            timestamp
+            user_name
+            email
+        }
+        timestamp
         }
     }
 `;

@@ -20,10 +20,10 @@ const Feed: React.FC<Props> = () => {
     const [file, setFile] = useState<File>();
     const [pictures, setPictures] = useState([]);
 
-        const onClick = async () => {
-        if (file === undefined) {
-            return;
-        }
+    const onClick = async () => {
+        if (file === undefined) return;
+        if (token === null) return;
+
         const formData = new FormData();
         formData.append('file', file);
         const imageUpload = await fetch(`${uploadURL}/upload`, {
@@ -35,8 +35,6 @@ const Feed: React.FC<Props> = () => {
         });
 
         const imageUploadData = (await imageUpload.json()) as UploadMessageResponse;
-
-        if (token === null) return;
 
         await doGraphQLFetch(
             apiUrl,
@@ -73,6 +71,7 @@ const Feed: React.FC<Props> = () => {
         getFeed();
     }, []);
 
+    // get message from socket and reload data
     socket.on('updateFeed', (data) => {
         getFeed();
     });
@@ -138,7 +137,6 @@ const Feed: React.FC<Props> = () => {
                             background: 'white',
                             borderRadius: '20px',
                             marginTop: '10px',
-                
                         }}>
                         <div style={{ width: '100%', display: 'flex', flexDirection: 'row' }}>
                             <div style={{ height: '10vh' }}>

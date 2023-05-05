@@ -23,6 +23,7 @@ const Edit: React.FC<Props> = () => {
     const [location, setLocation] = useState<string>('');
     const [interests, setInterests] = useState<string[]>([]);
 
+    // update user information
     const updateUser = async () => {
         if (token === null) return;
         let user: User = {};
@@ -34,11 +35,11 @@ const Edit: React.FC<Props> = () => {
         if (profile === null) return;
         let newProfile = profile;
         newProfile.owner = newUser.updateUser.user;
-        console.log('newProfile', newProfile);
         setProfile(newProfile);
         setState(0);
     };
 
+    // update profile information
     const updateProfile = async () => {
         if (token === null) return;
         if (profile === null) return;
@@ -72,7 +73,6 @@ const Edit: React.FC<Props> = () => {
         if (about !== '') newProfile.about = about;
         if (location !== '') newProfile.location = location;
         if (interests.length !== 0) newProfile.interests = interests;
-        console.log('newProfile', newProfile);
         const response = await doGraphQLFetch(
             apiUrl,
             putProfile,

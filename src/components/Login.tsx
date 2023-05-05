@@ -14,16 +14,7 @@ const Login: React.FC<Props> = () => {
 
     const apiUrl = process.env.REACT_APP_API_URL as string;
 
-    const updateUser = (e: ChangeEvent<HTMLInputElement>) => {
-        const val = e.target.value;
-        setUser(val);
-    };
-
-    const updatePassword = (e: ChangeEvent<HTMLInputElement>) => {
-        const val = e.target.value;
-        setPassword(val);
-    };
-
+    // submit login credentials
     const onClick = async () => {
         const credentials = {
             username: user,
@@ -99,9 +90,9 @@ const Login: React.FC<Props> = () => {
                     }}>
                     <h1>Welcome back</h1>
                     <h2>Email</h2>
-                    <input type="text" onChange={(evt) => updateUser(evt)}></input>
+                    <input type="text" onChange={(evt) => setUser(evt.target.value)}></input>
                     <h2>Password</h2>
-                    <input type="password" onChange={(evt) => updatePassword(evt)}></input>
+                    <input type="password" onChange={(evt) => setPassword(evt.target.value)}></input>
                     <button
                         style={{ margin: '30px', fontSize: '20px', color: 'white', backgroundColor: 'blue' }}
                         onClick={onClick}>
