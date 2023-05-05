@@ -12,9 +12,7 @@ interface Props {}
 const Home: React.FC<Props> = () => {
     const uploadImage = process.env.REACT_APP_UPLOAD_IMAGE as string;
 
-    const { token, profile, setToken } = useMainContext();
-
-    const [state, setState] = useState(0);
+    const { token, profile, setToken, state, setState } = useMainContext();
 
     console.log('token', token);
     console.log('profile', profile);
@@ -35,7 +33,7 @@ const Home: React.FC<Props> = () => {
                     height: '100%',
                     display: 'flex',
                     flexDirection: 'column',
-                    alignItems: 'flex-start',
+                    alignItems: 'center',
                     justifyContent: 'center',
                     margin: '10px',
                 }}>
@@ -182,9 +180,9 @@ const Home: React.FC<Props> = () => {
                     <Photo></Photo>
                 ) : state === 3 ? (
                     <Follow></Follow>
-                ) : state === 3 ? (
-                    <Follow></Follow>
                 ) : state === 4 ? (
+                    <Follow></Follow>
+                ) : state === 5 ? (
                     <Search></Search>
                 ) : (
                     <Edit></Edit>

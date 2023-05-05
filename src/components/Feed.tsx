@@ -20,19 +20,7 @@ const Feed: React.FC<Props> = () => {
     const [file, setFile] = useState<File>();
     const [pictures, setPictures] = useState([]);
 
-    const updateTitle = (e: ChangeEvent<HTMLInputElement>) => {
-        setTitle(e.target.value);
-    };
-
-    const updateDescription = (e: ChangeEvent<HTMLInputElement>) => {
-        setDescription(e.target.value);
-    };
-
-    const updateFile = (e: ChangeEvent<HTMLInputElement>) => {
-        setFile(e.target.files![0]);
-    };
-
-    const onClick = async () => {
+        const onClick = async () => {
         if (file === undefined) {
             return;
         }
@@ -113,21 +101,21 @@ const Feed: React.FC<Props> = () => {
                         <input
                             type="text"
                             placeholder="Start a post"
-                            onChange={(evt) => updateTitle(evt)}
+                            onChange={(evt) => setTitle(evt.target.value)}
                             style={{ marginLeft: '10px', height: 'auto', margin: '10px' }}
                         />
 
                         <input
                             type="text"
                             placeholder="Description"
-                            onChange={(evt) => updateDescription(evt)}
+                            onChange={(evt) => setDescription(evt.target.value)}
                             style={{ marginLeft: '10px', height: 'auto', margin: '10px' }}
                         />
 
                         <input
                             type="file"
                             placeholder="file picture"
-                            onChange={(evt) => updateFile(evt)}
+                            onChange={(evt) => setFile(evt.target.files![0])}
                             style={{ marginLeft: '10px', height: 'auto', margin: '10px' }}
                         />
                     </div>
@@ -157,7 +145,7 @@ const Feed: React.FC<Props> = () => {
                                 {profile && profile.avatar ? (
                                     <img
                                         src={`${uploadImage}/${profile.avatar}`}
-                                        alt="avatar"
+                                        alt={`${picture.filename}`}
                                         style={{
                                             height: '100%',
                                             borderRadius: '60px',
@@ -166,7 +154,7 @@ const Feed: React.FC<Props> = () => {
                                 ) : (
                                     <img
                                         src={require('../images/avatar.png')}
-                                        alt="avatar"
+                                        alt={`${picture.filename}`}
                                         style={{
                                             height: '100%',
                                             borderRadius: '50px',
@@ -186,15 +174,15 @@ const Feed: React.FC<Props> = () => {
                             </div>
                         </div>
 
-                        <h3>{picture.title}</h3>
-                        <div style={{ height: '40%' }}>
+                        <h3 key={picture.title}>{picture.title}</h3>
+                        <div key={picture.owner} style={{ height: '40%' }}>
                             <img
                                 src={`${uploadImage}/${picture.filename}`}
                                 alt={`${picture.id}`}
                                 style={{ width: '100%' }}
                             />
                         </div>
-                        <p>{picture.description}</p>
+                        <p key={picture.description}>{picture.description}</p>
                     </div>
                 );
             })}

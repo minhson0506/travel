@@ -86,7 +86,7 @@ const postProfile = `
     }
 `;
 
-const updateProfile = `
+const putProfile = `
     mutation UpdateProfile($id: ID!, $avatar: String, $cover: String, $about: String, $location: String, $interests: [String], $follows: [ID]) {
         updateProfile(id: $id, avatar: $avatar, cover: $cover, about: $about, location: $location, interests: $interests, follows: $follows) {
             id
@@ -183,7 +183,7 @@ export {
     getProfileById,
     getProfileByOwner,
     postProfile,
-    updateProfile,
+    putProfile,
     deleteProfile,
     addFollow,
     removeFollow

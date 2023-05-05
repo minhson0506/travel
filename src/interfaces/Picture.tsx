@@ -1,10 +1,11 @@
 import {User} from "./User";
 
 interface Picture {
+    id?: string;
     title: string;
     description: string;
     filename: string;
-    owner: string | User;
+    owner: User;
     timestamp: Date;
 }
 
