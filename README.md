@@ -1,46 +1,36 @@
-# Getting Started with Create React App
+# Travel
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+[Client app](https://travel-lkln.onrender.com)
 
-## Available Scripts
+The app is a social media platform for travelers. Users can create profiles, share their travel experiences, and connect with other travelers. 
 
-In the project directory, you can run:
+## App features
 
-### `npm start`
+<ul>
+  <li> Display list of travel experiences of users
+  <li> Display list of comments from users
+  <li> Search users
+  <li> Manager who is following user and who user is following
+  <li> Manager travel experiences of users
+</ul>
+  
+## A sneak peek of Travel!!
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/73076333/236402980-43a968f9-88ba-4385-8c58-f29680903f51.png" width="750"> 
+  <img src="https://user-images.githubusercontent.com/73076333/236403004-96836e02-da9c-48bb-bf59-5ccbeedbe6b3.png" width="750"> 
+  <img src="https://user-images.githubusercontent.com/73076333/236403017-8f55d1be-3550-4269-9c8c-a8b5389c68ed.png" width="750"> 
+</p>
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/73076333/236403033-ec022ccc-58cc-4cbe-b6a1-dd45318b2283.png" width="750"> 
+  <img src="https://user-images.githubusercontent.com/73076333/236403035-3a13a435-a639-4275-83bb-ea81e5595153.png" width="750"> 
+  <img src="https://user-images.githubusercontent.com/73076333/236403040-3779ac64-e7c3-4ffd-92b8-3cb1fe14619e.png" width="750"> 
+</p>
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/73076333/236403044-e3c55e00-3745-46cf-b85e-c3f6fedd2f89.png" width="750"> 
+  <img src="https://user-images.githubusercontent.com/73076333/236403047-af3c9c7d-2d0e-43c3-99ac-b368d29c70ef.png" width="750"> 
+  <img src="https://user-images.githubusercontent.com/73076333/236403050-a1b5b4e0-c351-409b-8a52-4c1ec12b2067.png" width="750"> 
+</p>
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Stack: React
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
 
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
