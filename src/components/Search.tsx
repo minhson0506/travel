@@ -12,7 +12,7 @@ const Search: React.FC<Props> = () => {
     const apiUrl = process.env.REACT_APP_API_URL as string;
     const uploadImage = process.env.REACT_APP_UPLOAD_IMAGE as string;
 
-    const { token } = useMainContext();
+    const { token, profile, setProfile } = useMainContext();
 
     const [text, setText] = useState<string>('');
     const [profiles, setProfiles] = useState<Profile[]>([]);
@@ -20,7 +20,7 @@ const Search: React.FC<Props> = () => {
 
     // load data for searching by name or email
     const onclick = async () => {
-        console.log('text', text);
+        console.log('onclick profile', profile);
         if (text === '') return;
         if (token === null) return;
         const response = await doGraphQLFetch(apiUrl, searchUser, { search: text }, token);
@@ -29,6 +29,7 @@ const Search: React.FC<Props> = () => {
                 return (await doGraphQLFetch(apiUrl, getProfileByOwner, { owner: user.id }, token)).profileByOwner[0];
             }),
         );
+        console.log('allProfiles', allProfiles);
         if (allProfiles === undefined) return;
         setProfiles(allProfiles);
     };
@@ -43,7 +44,7 @@ const Search: React.FC<Props> = () => {
                 <input type="text" onChange={(evt) => setText(evt.target.value)} style={{ margin: '10px' }} />
                 <button onClick={onclick}>Search</button>
             </div>
-            {profiles.map((profile: Profile) => {
+            {profiles.map((profileDisplay: Profile) => {
                 return (
                     <div
                         style={{
@@ -66,9 +67,9 @@ const Search: React.FC<Props> = () => {
                                 flexDirection: 'row',
                                 alignItems: 'flex-end',
                             }}>
-                            {profile && profile.avatar ? (
+                            {profileDisplay && profileDisplay.avatar ? (
                                 <img
-                                    src={`${uploadImage}/${profile.avatar}`}
+                                    src={`${uploadImage}/${profileDisplay.avatar}`}
                                     alt="avatar"
                                     style={{ height: '100%', borderRadius: '50px', border: '2px solid black' }}></img>
                             ) : (
@@ -77,7 +78,7 @@ const Search: React.FC<Props> = () => {
                                     alt="avatar"
                                     style={{ height: '100%', borderRadius: '50px', border: '2px solid black' }}></img>
                             )}
-                            <h1 style={{ padding: '10px' }}>{profile?.owner.user_name}</h1>
+                            <h1 style={{ padding: '10px' }}>{profileDisplay?.owner.user_name}</h1>
                         </div>
 
                         <button
@@ -90,23 +91,27 @@ const Search: React.FC<Props> = () => {
                                 margin: '10px',
                             }}
                             onClick={async () => {
-                                const bool =
-                                    profile.follows.length > 0
-                                        ? profile.follows.find((follow: any) => follow.id === profile.owner.id)
+                                let bool = false;
+                                if (profile !== null)
+                                bool = profile.follows.length > 0
+                                        ? profile.follows.find((follow: any) => follow.id === profileDisplay.owner.id)
                                             ? true
                                             : false
                                         : false;
                                 if (token === null) return;
                                 if (bool) {
-                                    await doGraphQLFetch(apiUrl, removeFollow, { id: profile.owner.id }, token);
+                                    const newProfile = await doGraphQLFetch(apiUrl, removeFollow, { id: profileDisplay.owner.id }, token);
+                                    setProfile(newProfile.removeFollow);
                                     setLoading(!loading);
                                 } else {
-                                    await doGraphQLFetch(apiUrl, addFollow, { id: profile.owner.id }, token);
+                                    console.log('add follow', profileDisplay.owner.id);
+                                    const newProfile = await doGraphQLFetch(apiUrl, addFollow, { id: profileDisplay.owner.id }, token);
+                                    setProfile(newProfile.addFollow);
                                     setLoading(!loading);
                                 }
                             }}>
-                            {profile.follows.length > 0
-                                ? profile.follows.find((follow: any) => follow.id === profile.owner.id)
+                            {profile !== null && (profile.follows.length > 0)
+                                ? profile.follows.find((follow: User) => follow.id === profileDisplay.owner.id)
                                     ? 'Unfollow'
                                     : 'Follow'
                                 : 'Follow'}

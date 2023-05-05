@@ -179,9 +179,9 @@ const Home: React.FC<Props> = () => {
                 ) : state === 2 ? (
                     <Photo></Photo>
                 ) : state === 3 ? (
-                    <Follow></Follow>
+                    <Follow follower = {false}></Follow>
                 ) : state === 4 ? (
-                    <Follow></Follow>
+                    <Follow follower = {true}></Follow>
                 ) : state === 5 ? (
                     <Search></Search>
                 ) : (

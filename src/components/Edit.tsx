@@ -73,6 +73,7 @@ const Edit: React.FC<Props> = () => {
         if (about !== '') newProfile.about = about;
         if (location !== '') newProfile.location = location;
         if (interests.length !== 0) newProfile.interests = interests;
+        console.log('newProfile', newProfile);
         const response = await doGraphQLFetch(
             apiUrl,
             putProfile,
@@ -83,10 +84,11 @@ const Edit: React.FC<Props> = () => {
                 about: newProfile.about,
                 location: newProfile.location,
                 interests: newProfile.interests,
-                follows: newProfile.follows,
+                follows: newProfile.follows.map((user: User) => user.id),
             },
             token,
         );
+        console.log('response', response);
         setProfile(response.updateProfile);
         setState(0);
     };
